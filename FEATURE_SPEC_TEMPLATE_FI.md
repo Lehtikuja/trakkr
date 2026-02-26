@@ -43,7 +43,7 @@ Listaa kaikki ideat ensin tähän. Priorisointi tehdään seuraavassa osiossa.
 | F-003 | Viikon ToDo | Viikon sivu, josta poimitaan tehtäviä päivän sivulle |
 | F-004 | Seuraavan viikon ToDo | Seuraavan viikon valmistelu. Ideana, että kun yksi viikko loppuu, voi seuraavalle viikolle jo olla jotain valmiina eikä tarvitse kerralla suunnitella koko viikkoa |
 | F-005 | Kuukauden kalenteri | Korkeamman tason tehtävälista kalenterin muodossa. etukäteen suunnitellut asiat täällä |
-| F-006 | rutiinin muodostus | Voi luoda tavoitteen ja sitä varten päivittäiset tehtävät |
+| F-006 | Rutiinin muodostus | Voi luoda tavoitteen ja sitä varten päivittäiset tehtävät |
 | F-007 | Kalenteri-integraatio | Integraatio kalenterin kanssa, ja mahdollisuus tuoda ja viedä kalenterimerkintöjä |
 | F-008 | Henkilökohtaisten projektien hallinta | tavallaan sama kuin tavoitteiden seuranta, mutta yksittäisille projekteille, eikä toistuviin rutiineihin. Tarkoitus ei ole olla mikään massiivinen projektinhallintakokonaisuus, vaan henkilökohtaiseen seurantaan |
 | F-009 | Projektisivu | kaikkien omien projektien hallinnointi ja seuranta |
@@ -61,6 +61,8 @@ Listaa kaikki ideat ensin tähän. Priorisointi tehdään seuraavassa osiossa.
 | F-021 | Top-3 ToDo siirtyy huomiselle | Tekemättömät tärkeät tehtävät siirtyvät huomiselle tai takaisin viikon listalle tai yleislistalle |
 | F-022 | Alitehtävät | Tähtävien sijoittaminen toisen tehtävän alle |
 | F-023 | Tehtävien luokittelu | Tähtävien luokittelu esim. värien avulla tyypin mukaan |
+| F-024 | Rutiinien joukot | Käytännössä alitehtävät rutiineille |
+| F-025 | Lyhyen tähtäimen tavoitteet | Esim. päivän tai viikon tavoite oman ajattelun kehittämiselle. Eli ei siis tehtävä vaan abstraktimpi tavoite. Voisi olla joku isompi ajatus taustalla -> mikä auttaisi ADHD:n kanssa |
 
 
 ---
@@ -99,6 +101,8 @@ Merkitse jokainen ominaisuus yhteen luokkaan:
 | F-021 | V2 | Jonkinlainen automaattinen tehtävien siirtely vähentää itse tehtävän kirjoittamisen tarvetta |
 | F-022 | V2 | Mahdollistaa isompien tehtävien jaottelun |
 | F-023 | Later | Helpottaisi hahmottamista |
+| F-024 | V2 | Selkeyttäisi rutiineja |
+| F-025 | Later | Erilaisia ajattelutapoja lisää eikä vain keskittymistä koviin tavoitteisiin |
 
 ---
 
@@ -106,15 +110,15 @@ Merkitse jokainen ominaisuus yhteen luokkaan:
 
 Kopioi tämä lohko jokaiselle tärkeälle ominaisuudelle (ainakin MVP-ominaisuuksille).
 
-### [ID: F-001] [Päivän ToDo]
+### [ID: F-014] [Tapahtumaoliot]
 
 **Käyttäjätarina**  
-Haluan nähdä päivän tavoitteet, jotta ainakin pari tärkeintä asiaa tulisi hoidettua.
+Haluan että tapahtumat ovat oma joukkonsa, jotta voin merkitä niille statuksen ja tärkeyden.
 
 **Hyväksymiskriteerit**
-- [ ] Checkboxeja sisältävä pohja johon voi täyttää päivän tehtävät ja merkitä niitä tehdyksi
-- [ ] Kaikki näkyy yhdessä näkymässä ilman ylimääräisiä UI elementtejä
-- [ ] automaattisesti rutiininseuranta
+- [ ] Tehtävällä on kriittisimmät muuttujansa, jotta niitä voi merkitä tehdyksi ja siirtää eri sivuille
+- [ ] aikataulua voi muuttaa ja tehtävä siirtyy toiselle sivulle
+- [ ] tehtävä poistuu päivän/viikon lopussa kun se on suoritettu
 
 **Tarvittava data**
 - Entiteetit: `task`
@@ -136,20 +140,20 @@ Haluan nähdä päivän tavoitteet, jotta ainakin pari tärkeintä asiaa tulisi 
 
 ---
 
-### [ID: F-XXX] [Ominaisuuden nimi]
+### [ID: F-006] [Rutiinin muodostus]
 
 **Käyttäjätarina**  
-Haluan [toiminto], jotta [hyöty].
+Haluan että rutiiniksi tahtomani toiminta lisätään todo-listalle, jotta muistan tehdä ne tarvittavalla toistuvuudella.
 
 **Hyväksymiskriteerit**
-- [ ]
-- [ ]
-- [ ]
+- [ ] Rutiinitavoitteen mukaiset tehtävät lisätään automaattisesti tehtävälistoille
+- [ ] Rutiini "lisää" vain oikean määrän tehtäviä oikeaan paikkaan
+- [ ] Halutun rutiinin voi lisätä tai poistaa
 
 **Tarvittava data**
-- Entiteetit:
-- Kentät:
-- Validoinnit:
+- Entiteetit: `routine_task`
+- Kentät: `id`, `category`, `frequency`, `note`
+- Validoinnit: 
 
 **API-tarve (alustava)**
 - Endpoint:
@@ -162,33 +166,88 @@ Haluan [toiminto], jotta [hyöty].
 - Estää ominaisuuksia:
 
 **Prioriteetti**
-- MVP / V2 / Later
+- MVP
+
+### [ID: F-001] [Päivän ToDo]
+
+**Käyttäjätarina**  
+Haluan nähdä päivän tavoitteet, jotta ainakin pari tärkeintä asiaa tulisi hoidettua.
+
+**Hyväksymiskriteerit**
+- [ ] Checkboxeja sisältävä pohja johon voi täyttää päivän tehtävät ja merkitä niitä tehdyksi
+- [ ] Kaikki näkyy yhdessä näkymässä ilman ylimääräisiä UI elementtejä
+- [ ] automaattisesti rutiininseuranta
+
+**Tarvittava data**
+- Entiteetit:
+- Kentät: 
+- Validoinnit: 
+
+**API-tarve (alustava)**
+- Endpoint:
+- Metodi:
+- Pyyntö:
+- Vastaus:
+
+**Riippuvuudet**
+- Riippuu ominaisuuksista:
+- Estää ominaisuuksia:
+
+**Prioriteetti**
+- MVP
+
+### [ID: F-003] [Viikon ToDo]
+
+**Käyttäjätarina**  
+Haluan nähdä viikon tavoitteet, jotta pystyn suunnittelemaan elmääni sopivaksi ajaksi eteenpäin.
+
+**Hyväksymiskriteerit**
+- [ ] Checkboxeja sisältävä pohja johon voi täyttää päivän tehtävät ja merkitä niitä tehdyksi
+- [ ] Näkymä voi olla monimutkaisempi kuin päivänäkymä, mutta pitäisi olla aikataulutetuille tehtäville oma kohtansa ja isommat tavoitteet viikolle
+- [ ] helppo siirtäminen tälle päivälle tai huomiselle
+
+**Tarvittava data**
+- Entiteetit:
+- Kentät: 
+- Validoinnit: 
+
+**API-tarve (alustava)**
+- Endpoint:
+- Metodi:
+- Pyyntö:
+- Vastaus:
+
+**Riippuvuudet**
+- Riippuu ominaisuuksista:
+- Estää ominaisuuksia:
+
+**Prioriteetti**
+- MVP
+
 
 ## 6) Domain-malli (ensimmäinen versio)
 
 Kirjaa ydinkäsitteet ja niiden suhteet.
 
 **Ydinkäsitteet (esimerkki):**
-- Goal (tavoite)
-- GoalEntry (päiväkohtainen merkintä)
-- ScheduleRule (toistuvuus)
-- Reminder (muistutus)
+- Routine (rutiini)
+- Task (tehtävämerkintä)
+- Frequency (toistuvuus)
+- Category (tehtävän luokka: esim. raskas/mukava, nopea/hidas)
 
 **Suhteet:**
-- Yhdellä Goalilla on monta GoalEntryä.
-- Goalilla voi olla yksi tai useampi ScheduleRule.
+- Task kuuluu johonkin Categoryyn.
+- Rutiinilla on yksi Frequency.
 
 ---
 
 ## 7) Aika- ja kalenterisäännöt (erittäin tärkeä)
 
-Täytä nämä eksplisiittisesti:
-
-- Käyttäjän aikavyöhyke:
+- Käyttäjän aikavyöhyke: Helsinki
 - Tallennusmuoto tietokannassa (suositus: UTC):
-- Milloin päivä vaihtuu:
-- Viikon ensimmäinen päivä (ma/su):
-- Miten streak lasketaan:
+- Milloin päivä vaihtuu: 00:00
+- Viikon ensimmäinen päivä (ma/su): ma
+- Miten streak lasketaan: 
 - Miten toimitaan kesä-/talviajan vaihdossa:
 
 ---
@@ -199,7 +258,7 @@ Täytä nämä eksplisiittisesti:
 - Next.js + TypeScript
 
 **Backend**
-- Rust + Axum
+- Rust + Axum?
 
 **Tietokanta**
 - PostgreSQL
@@ -225,11 +284,9 @@ Valitse tähän **vain 3–5 ominaisuutta**, jotka tehdään ensin.
 
 | MVP-ominaisuus | Miksi pakollinen? | Mitä EI tehdä vielä |
 |---|---|---|
-| 1. |  |  |
-| 2. |  |  |
-| 3. |  |  |
-| 4. |  |  |
-| 5. |  |  |
+| Tehtäväolio | kaiken perusta | Ei vielä lapsiolioita tai hienompia logiikoita |
+| Näkymät | Päivän ja viikon tehtävien hahmotus | Automaatiota siirtoon tai muokattavia näkymiä |
+| Rutiinit | Olisi tärkeää kehittää paremman toimintakyvyn saamiseksi | Suunnitelmia joissa eri rutiineja tai ryhmiä tai ajastusta |
 
 ---
 
@@ -242,76 +299,3 @@ Valitse tähän **vain 3–5 ominaisuutta**, jotka tehdään ensin.
 - [ ] Ensimmäinen pystyslice (luo tavoite + näytä listassa)
 
 ---
-
-# Esimerkkikuvaus: miten pohja täytetään
-
-Alla yksi tiivis esimerkki samasta rungosta.
-
-## 1) Vision statement (esimerkki)
-
-Rakennan henkilökohtaisen tavoiteseurantasovelluksen, jossa päivittäinen käyttö on nopeampaa kuin paperivihossa. Haluan nähdä kalenterista yhdellä silmäyksellä, miten hyvin olen toteuttanut viikko- ja päivätavoitteeni. Sovelluksen pitää tukea joustavia tavoitteita (esim. 3 kertaa viikossa), ei vain “joka päivä” -mallia. Tärkein hyöty on jatkuvuus: onnistun pitämään rutiinit käynnissä ilman monimutkaista kirjaamista. 3 kuukauden onnistumismittari on, että kirjaan merkinnät vähintään 5 päivänä viikossa ja käytän samaa sovellusta kaikkien päätavoitteideni seurantaan.
-
-## 2) Käyttäjäprofiilit (esimerkki)
-
-| Profiili | Kuvaus | Tärkein tarve |
-|---|---|---|
-| Minä (aktiivinen suunnittelija) | Haluaa suunnitella viikon tavoitteet etukäteen | Nopea kalenterimerkintä |
-| Minä (kiireinen arki) | Ei jaksa käyttää monimutkaista UI:ta | 10 sekunnin kirjaus |
-
-## 3–4) Ominaisuudet + priorisointi (esimerkki)
-
-| ID | Ominaisuus | Prioriteetti | Perustelu |
-|---|---|---|---|
-| F-001 | Tavoitteen luonti | MVP | Ilman tätä ei ole seurattavaa |
-| F-002 | Päiväkohtainen done/skip-merkintä | MVP | Ydintoiminto |
-| F-003 | Kuukausikalenterin näkymä | MVP | Antaa näkyvyyden etenemiseen |
-| F-004 | Viikkoraportti | V2 | Hyödyllinen mutta ei pakollinen aloitukseen |
-| F-005 | Push-muistutukset | Later | Vaatii lisäinfraa |
-
-## 5) Ominaisuusspeksi (esimerkki yhdestä)
-
-### [ID: F-002] Päiväkohtainen done/skip-merkintä
-
-**Käyttäjätarina**  
-Haluan merkitä päivän tavoitteen tehdyksi tai ohitetuksi, jotta näen toteuman kalenterissa.
-
-**Hyväksymiskriteerit**
-- [ ] Käyttäjä voi valita päivän ja asettaa tilan `done` tai `skip`.
-- [ ] Sama päivä päivittyy, eikä synny duplikaattimerkintää.
-- [ ] Kalenterin päiväsolun väri muuttuu tilan mukaan.
-
-**Tarvittava data**
-- Entiteetit: `goal_entries`
-- Kentät: `id`, `goal_id`, `entry_date`, `status`, `note`, `updated_at`
-- Validoinnit: vain yksi merkintä per (goal_id, entry_date)
-
-**API-tarve (alustava)**
-- Endpoint: `/api/v1/goals/{goalId}/entries`
-- Metodi: `PUT`
-- Pyyntö: `{ "entryDate": "2026-02-26", "status": "done", "note": "Kevyt lenkki" }`
-- Vastaus: päivitetty entry-objekti
-
-**Riippuvuudet**
-- Riippuu ominaisuuksista: F-001
-- Estää ominaisuuksia: ei estä, mutta mahdollistaa F-003 ja F-004
-
-**Prioriteetti**
-- MVP
-
-## 7) Aika- ja kalenterisäännöt (esimerkki)
-
-- Käyttäjän aikavyöhyke: `Europe/Helsinki`
-- Tallennusmuoto tietokannassa: UTC
-- Päivä vaihtuu: käyttäjän paikallisen ajan mukaan klo 00:00
-- Viikon ensimmäinen päivä: maanantai
-- Streak-logiikka: done kasvattaa streakia, skip nollaa streakin
-- DST-vaihto: päivät lasketaan paikallisen päivämäärän perusteella
-
-## 10) MVP-rajauksen lukitus (esimerkki)
-
-| MVP-ominaisuus | Miksi pakollinen? | Mitä EI tehdä vielä |
-|---|---|---|
-| Tavoitteen luonti | Luo seurannan perustan | Ei vielä tavoitemalleja |
-| Päivämerkinnät | Mahdollistaa todellisen käytön | Ei vielä kommenttihistoriaa |
-| Kuukausikalenteri | Tekee etenemisen näkyväksi | Ei vielä viikkonäkymää |
-| Peruslistaus tavoitteista | Navigointi | Ei vielä kategorioita/tägejä |
